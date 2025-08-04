@@ -8,9 +8,11 @@
 
 // Function to encrypt or decrypt a password using XOR
 void xorEncryptDecrypt(char *input, char *output) {
-    for (int i = 0; input[i] != '\0'; i++) {
+    int i;
+    for (i = 0; input[i] != '\0'; i++) {
         output[i] = input[i] ^ ENCRYPTION_KEY;
     }
+    output[i] = '\0'; // Ensure null-termination
 }
 
 // Function to compare user input password with encrypted stored password
@@ -22,21 +24,22 @@ int verifyPassword(const char *input, const char *encryptedStored) {
 
 int main() {
     char storedPasswordEncrypted[PASSWORD_LENGTH];
+    char actualPassword[PASSWORD_LENGTH] = "1234"; // Change this to set a different password
     char inputPassword[PASSWORD_LENGTH];
     int balance = 100000, option, deposit, withdrawal;
 
-    // Store encrypted password in memory
-    char realPassword[] = "2437";
-    xorEncryptDecrypt(realPassword, storedPasswordEncrypted);
+    // Encrypt and store the password
+    xorEncryptDecrypt(actualPassword, storedPasswordEncrypted);
 
-    // Allow up to 3 attempts
+    printf("=========== Welcome to Secure ATM ===========\n");
+
     int attempts = MAX_TRIES;
     while (attempts--) {
-        printf("Enter your 4-digit ATM password: ");
+        printf("🔒 Enter your password: ");
         scanf("%s", inputPassword);
 
         if (verifyPassword(inputPassword, storedPasswordEncrypted)) {
-            printf("\n✅ Access Granted\n");
+            printf("✅ Access Granted. Welcome!\n");
             break;
         } else {
             printf("❌ Incorrect Password. Attempts left: %d\n", attempts);
@@ -97,3 +100,4 @@ int main() {
 
     return 0;
 }
+
